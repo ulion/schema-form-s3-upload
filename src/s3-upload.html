@@ -1,0 +1,19 @@
+<div class="form-group" ng-class="{'has-error': hasError(), 'has-success': hasSuccess(), 'has-feedback': form.feedback !== false }" sf-s3-upload ng-controller="sfS3UploadCtrl">
+  <label class="control-label" ng-show="showTitle()">{{form.title}}</label>
+  <input type="hidden" class="form-control" 
+    ng-model="$$value$$"
+    schema-validate="form" />
+  <input type="file" class="btn" accept="{{form.accept}}" ng-file-select="onFileSelect($files)" ng-if="!form.multiple">
+  <input type="file" class="btn" accept="{{form.accept}}" ng-file-select="onFileSelect($files)" ng-if="form.multiple" multiple>
+  <div ng-repeat="file in files" class="container">
+      <div class="progress">
+          <div class="progress-bar" role="progressbar" style="width:{{file.progress}}%;">
+              {{file.name}} : {{file.progress}}
+          </div>
+      </div>
+      <button class="btn btn-ttc" type="button" ng-click="abort($index)" ng-show="file.progress != 100">Abort</button>
+  </div>
+  <div class="help-block"
+    ng-show="(hasError() && errorMessage(schemaError())) || form.description"
+    ng-bind-html="(hasError() && errorMessage(schemaError())) || form.description"></div>
+</div>
