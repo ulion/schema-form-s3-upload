@@ -1,0 +1,16 @@
+<div ng-class="form.thumbnailListClass">
+  <div ng-repeat="theFile in currentFiles">
+    <img ng-src="{{getThumbnailUrl(theFile)}}" alt="{{getFileName(theFile)}}" title="{{getFileName(theFile)}}" ng-class="form.thumbnailClass" ng-if="hasThumbnail(theFile)">
+    <span ng-if="!hasThumbnail(theFile)"><a href="{{getFileUrl(theFile)}}" target=_blank>{{getFileName(theFile)}}</a></span>
+    <span class="glyphicon glyphicon-remove" aria-hidden="true" ng-click="removeFile(theFile)"></span>
+  </div>
+</div>
+<button ng-file-select="onFileSelect($files)" class="{{form.buttonClass || 'btn'}}" accept="{{form.accept}}" ng-multiple="form.multiple" sf-prevent-default>{{form.buttonLabel || 'Select File'}}</button>
+<div ng-repeat="file in files">
+  <div class="progress">
+    <div class="progress-bar" role="progressbar" style="width:{{file.progress}}%;">
+      {{file.name}} : {{file.progress}}
+    </div>
+  </div>
+  <button class="btn btn-ttc" type="button" ng-click="abort($index)" ng-show="file.progress != 100">Abort</button>
+</div>
