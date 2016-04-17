@@ -39,7 +39,18 @@ angular.module('schemaForm')
           }
           if (!Array.isArray(val))
             val = [val];
-          scope.currentFiles = val;
+          scope.currentFiles = val.map(function(file) {
+            if (scope.form.resultField === 'location' && typeof file === 'string') {
+              file = {
+                location: file,
+                name: scope.getFileName(file)
+              };
+            }
+            // set default file timestamp as the loaded time.
+            else if (!file.uploadedAt)
+              file.uploadedAt = scope.loadedAt;
+            return file;
+          });
           /*if (!scope.form.resultField) {
             scope.currentFiles = val.filter(function(file) {
               return file.contentType.slice(0, 6) === 'image/';
@@ -97,11 +108,11 @@ angular.module('schemaForm')
               return true;
             if (file.contentType && file.contentType.slice(0, 6) === 'image/')
               return true;
-            var ext = (file.name || file).split('.').pop().toLowerCase();
+            var ext = $scope.getFileName(file).split('.').pop().toLowerCase();
             return ['jpg', 'jpeg', 'png', 'gif'].indexOf(ext) >= 0;
           };
           $scope.getFileName = function(file) {
-            return file.name || file.split('?')[0].split('/').pop().replace(/\.\d{13}(\.[^.]+)?$/, '$1');
+            return file.name || (file.location || file).split('?')[0].split('/').pop().replace(/\.\d{13}(\.[^.]+)?$/, '$1');
           };
           $scope.getTooltip = function(file) {
             var filename = $scope.getFileName(file);
