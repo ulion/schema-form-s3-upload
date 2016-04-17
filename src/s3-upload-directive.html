@@ -1,6 +1,6 @@
 <div ng-class="form.thumbnailListClass">
   <div ng-repeat="theFile in currentFiles">
-    <img ng-src="{{getThumbnailUrl(theFile)}}" alt="{{getFileName(theFile)}}" title="{{getFileName(theFile)}}" ng-class="form.thumbnailClass" ng-if="hasThumbnail(theFile)">
+    <img ng-src="{{getThumbnailUrl(theFile)}}" alt="{{getFileName(theFile)}}" title="{{getTooltip(theFile)}}" ng-class="form.thumbnailClass" ng-if="hasThumbnail(theFile)">
     <span ng-if="!hasThumbnail(theFile)"><a href="{{getFileUrl(theFile)}}" target=_blank>{{getFileName(theFile)}}</a></span>
     <span ng-if="!form.readonly && !form.disabled && (!form.noDelete || !theFile.uploadedAt || theFile.uploadedAt > loadedAt)" class="glyphicon glyphicon-remove" aria-hidden="true" ng-click="removeFile(theFile)"></span>
   </div>

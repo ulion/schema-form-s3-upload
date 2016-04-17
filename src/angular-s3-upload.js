@@ -103,6 +103,12 @@ angular.module('schemaForm')
           $scope.getFileName = function(file) {
             return file.name || file.split('?')[0].split('/').pop().replace(/\.\d{13}(\.[^.]+)?$/, '$1');
           };
+          $scope.getTooltip = function(file) {
+            var filename = $scope.getFileName(file);
+            if (typeof $scope.form.getTooltip == 'function')
+              return $scope.form.getTooltip(filename, file);
+            return filename;
+          }
           /*$scope.thumbnailFilter = function() {
             return function(item) {
               if (typeof item === 'string')
