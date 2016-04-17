@@ -14,12 +14,13 @@ angular.module('schemaForm')
       templateUrl: 'directives/decorators/bootstrap/s3-upload/s3-upload-directive.html',
       link: function(scope, element, attrs, ngModel) {
         console.log('sfS3Upload link', scope, element, attrs, ngModel);
+        scope.loadedAt = Date.now();
         scope.currentFiles = [];
         scope.removeFile = function(file) {
           var idx = scope.currentFiles.indexOf(file);
           if (idx >= 0) {
             scope.currentFiles.splice(idx, 1);
-            
+
             if (scope.form.multiple) {
               ngModel.$setViewValue(scope.currentFiles);
             }
@@ -159,8 +160,12 @@ angular.module('schemaForm')
                           etag: data.postresponse.etag,
                           contentType: file.type,
                           size: file.size,
-                          name: file.name
+                          name: file.name,
+                          uploadedAt: Date.now()
                         };
+                        if (typeof $scope.form.s3Options.postUpload == 'function') {
+                          parsedData = $scope.form.s3Options.postUpload(parsedData);
+                        }
                         console.log(parsedData);
                         $scope.uploaded.push(parsedData);
 
